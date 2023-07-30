@@ -22,14 +22,16 @@ public class EmployeeExceptionHandler {
         // при возникновении SQLException.
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler
-    public ResponseEntity<?> handleException(Exception exception) {
-        // Возвращает статус 403 (Forbidden) при возникновении Exception.
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
+
     @ExceptionHandler
     public ResponseEntity<?> handleException(IncorrectEmployeeIdException idException) {
         // Возвращает статус 404 (NOT_FOUND) при возникновении IncorrectEmployeeException.
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+       /* @ExceptionHandler
+    public ResponseEntity<?> handleException(Exception exception) {
+        // Возвращает статус 403 (Forbidden) при возникновении Exception.
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }*/
 }

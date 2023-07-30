@@ -2,6 +2,8 @@ package ru.skypro.homework.springdatajpa.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "position")
 public class Position {
@@ -10,7 +12,7 @@ public class Position {
     @Column(name = "position_id")
     private Integer id;
     private String role;
-    //@OneToMany(mappedBy = "position", cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "position", orphanRemoval = true)
     //private List<Employee> employees;
 
     public Position() {
@@ -32,11 +34,20 @@ public class Position {
         this.role = role;
     }
 
+    //public List<Employee> getEmployees() {
+        //return employees;
+    //}
+
+    //public void setEmployees(List<Employee> employees) {
+        //this.employees = employees;
+    //}
+
     @Override
     public String toString() {
         return "Position{" +
                 "id=" + id +
                 ", role='" + role + '\'' +
+                //", employees=" + employees +
                 '}';
     }
 }
