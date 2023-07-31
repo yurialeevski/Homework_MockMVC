@@ -2,15 +2,10 @@ package ru.skypro.homework.springdatajpa.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-import java.io.IOException;
+public class ApplicationErrors extends RuntimeException {
+    private HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-public class IncorrectEmployeeIdException extends RuntimeException {
-    public IncorrectEmployeeIdException(String message) {
-        super(message);
-    }
-    private HttpStatus httpStatus;
-
-    public IncorrectEmployeeIdException(String message, HttpStatus httpStatus) {
+    public ApplicationErrors(String message, HttpStatus httpStatus) {
         super(message);
         this.httpStatus = httpStatus;
     }

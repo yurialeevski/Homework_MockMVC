@@ -12,11 +12,18 @@ public class Employee {
     private Integer employeeId;
     private String name;
     private Integer salary;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "position_id")
     private Position position;
 
     public Employee() {
+    }
+
+    public Employee(Integer employeeId, String name, Integer salary, Position position) {
+        this.employeeId = employeeId;
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
     }
 
     public Integer getEmployeeId() {

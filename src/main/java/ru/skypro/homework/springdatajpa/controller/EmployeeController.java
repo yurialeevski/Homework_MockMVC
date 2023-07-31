@@ -1,7 +1,11 @@
 package ru.skypro.homework.springdatajpa.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.skypro.homework.springdatajpa.dto.ENewDto;
 import ru.skypro.homework.springdatajpa.dto.EmployeeDTO;
+import ru.skypro.homework.springdatajpa.dto.EmployeeDtoNew;
 import ru.skypro.homework.springdatajpa.dto.EmployeeViewDTO;
 import ru.skypro.homework.springdatajpa.model.Employee;
 import ru.skypro.homework.springdatajpa.service.EmployeeService;
@@ -17,6 +21,50 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+
+    @PostMapping("/add-one-employee")
+    public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody EmployeeDtoNew employeeDtoNew){
+        EmployeeDTO employeeDTO = employeeService.createEmployee(employeeDtoNew);
+        return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/employee-by-id")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Integer id) {
+        EmployeeDTO employeeDTO = employeeService.getEmployeeById(id);
+        return new ResponseEntity<>(employeeDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/allEmployees")
+    public List<EmployeeDTO> getAllEmployees() {
+        return employeeService.getAllEmployees();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployeeById(@PathVariable Integer id, @RequestBody EmployeeDtoNew employeeDtoNew) {
+        EmployeeDTO emplDTO = employeeService.updateEmployeeById(id, employeeDtoNew);
+        return new ResponseEntity<>(emplDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Employee> deleteEmployeeById(@PathVariable Integer id) {
+        Employee employee = employeeService.deleteEmployeeById(id);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+    @GetMapping("/pages")
+    public List<Employee> getAllEmployeesByPageNumber(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "employeeId") String sortBy) {
+        List<Employee> list = employeeService.getAllByPageNumber(pageNo, pageSize, sortBy);
+        return list;
+    }
+
+
+    /*############################################
+
+
+
     @GetMapping("/salary/min")
     public int showMinEmployeeSalary() {
         return employeeService.getMinEmployeeSalary();
@@ -39,45 +87,15 @@ public class EmployeeController {
     public EmployeeViewDTO getViewInfoById(@PathVariable Integer id) {
         return employeeService.findViewInfo(id);
     }
-    @GetMapping("/pages")
-    public List<Employee> getAllEmployeesByPageNumber(
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "employeeId") String sortBy) {
-        List<Employee> list = employeeService.getAllByPageNumber(pageNo, pageSize, sortBy);
 
-        return list;
-    }
-        /*@GetMapping("/get-employees")
-    public List<Employee> getEmployees() {
-        return employeeService.findAll();
-    }
-    @GetMapping("/{employeeId}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer employeeId) {
-        Employee employee = employeeService.getEmployeeById(employeeId);
-        //EmployeeDTO employeeDTO = employeeService.getEmployeeById(employeeId);
-        if (employee == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(employee);
-    }*/
+
+
+
+    #############################################*/
+
     /*
 
-    @PostMapping("/add-one-employee")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addEmployee(@RequestBody Employee employee){
-        employeeService.addEmployee(employee);
-    }
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Employee findEmployeeById(@PathVariable Integer id) {
-        return employeeService.findEmployeeById(id);
-    }
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteEmployeeById(@PathVariable Integer id) {
-        employeeService.deleteEmployeeById(id);
-    }
+
     @GetMapping("/find-by-name")
     public List<Employee> findByName(String name) {
         return employeeService.findByName(name);
@@ -92,23 +110,11 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/dto/show-all-employees")
-    public List<EmployeeDTO> showAllEmployeesDTO() {
-        return employeeService.showAllEmployeesDTO();
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateEmployeeById(@PathVariable Integer id, @RequestBody Employee employee) {
-        employeeService.updateEmployeeById(id, employee);
-    }
-
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public void addListOfEmployees(@RequestBody List<Employee> employees){
         employeeService.addListOfEmployees(employees);
     }
-
 
     @GetMapping("/salaryHigherThan")
     public List<Employee> showSalaryHigherThan(@RequestParam("salary") Integer salary) {
@@ -122,8 +128,19 @@ public class EmployeeController {
 
     @GetMapping("/salary/max")
     public int showMaxEmployeeSalary() { return employeeService.getMaxEmployeeSalary();}
+
     @GetMapping("/high-salary")
     public List<Employee> showHighSalaryEmployees() { return employeeService.getHighSalaryEmployees();}
+
+
+        ############# Методы для отладки
+
+    @PostMapping("/add-employee")
+    public ResponseEntity<Employee> addNewEmployee(@RequestBody ENewDto eNewDto){
+
+        Employee employee1 = employeeService.createNewEmployee(eNewDto);
+        return new ResponseEntity<>(employee1, HttpStatus.OK);
+    }
 
      */
 }
